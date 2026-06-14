@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gowrimanohari KP | Space & Electronics</title>
+    
+    <!-- Google Fonts: Space Grotesk for primary text, Space Mono for technical details -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for clean, simple icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #c4b5fd; /* Soft violet/lavender accent */
+            --panel-bg: rgba(10, 12, 20, 0.4);
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --panel-hover: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #020617;
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Real Cosmic Background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            /* High-res dark space image */
+            background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(180deg, rgba(2, 6, 23, 0.6) 0%, rgba(2, 6, 23, 0.95) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 80px 0;
+            opacity: 0; /* For scroll reveal */
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(2, 6, 23, 0.7);
+            border-bottom: 1px solid var(--panel-border);
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        h1, h2, h3 {
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        .mono {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 32px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .panel:hover {
+            border-color: var(--panel-hover);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: var(--panel-border);
+            margin-top: 5px;
+        }
+
+        #home {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 80px;
+        }
+
+        .hero-top {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .planet-icon {
+            opacity: 0.9;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .type-wrap {
+            font-family: 'Space Mono', monospace;
+            color: var(--accent);
+            font-size: 1rem;
+            height: 24px;
+            margin-bottom: 32px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: var(--accent);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        ul.clean-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        ul.clean-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-muted);
+        }
+
+        ul.clean-list li i {
+            color: var(--accent);
+            font-size: 0.9rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .timeline-card {
+            border-left: 2px solid var(--panel-border);
+            padding-left: 24px;
+            margin-left: 12px;
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        .timeline-card:last-child {
+            padding-bottom: 0;
+            border-left-color: transparent;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .achievement-item {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .achievement-item:hover {
+            border-color: var(--panel-hover);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: #111;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            opacity: 1;
+            transform: scale(1.03);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 12px 16px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            border-top: 1px solid var(--panel-border);
+            margin-top: 40px;
+            color: var(--text-muted);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--panel-hover);
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .nav-links { display: none; /* Simplification for clean mobile view */ }
+            .gallery-grid { grid-template-columns: 1fr; }
+            section { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cosmic-bg"></div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="#home" class="logo">GOWRI.KP</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="home">
+            <div class="hero-top">
+                <!-- Clean, elegant wireframe planet icon -->
+                <svg class="planet-icon" width="48" height="48" viewBox="0 0 100 100" fill="none" stroke="var(--accent)" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="25" />
+                    <ellipse cx="50" cy="50" rx="45" ry="12" transform="rotate(-15 50 50)" />
+                </svg>
+            </div>
+            <h1 class="hero-title">Gowrimanohari KP</h1>
+            <p class="hero-subtitle">Electronics Engineering Student & Future VLSI Design Engineer</p>
+            
+            <div class="type-wrap">
+                > <span id="type-text"></span><span class="cursor"></span>
+            </div>
+
+            <p style="color: var(--text-muted); max-width: 600px; font-size: 1.1rem;">
+                I'm fascinated by how we turn silicon into systems that can explore the universe. 
+                I enjoy exploring the intersection of electronics, semiconductor technology, and astronomy.
+            </p>
+        </section>
+
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="panel">
+                <p style="margin-bottom: 16px;">
+                    Hi! I'm currently pursuing my Electronics Engineering degree (VLSI Design & Technology) at the Bangalore Institute of Technology. 
+                </p>
+                <p style="margin-bottom: 16px;">
+                    I'm a naturally curious learner who likes to figure out how things work. My interests bounce between the extremely small—like Digital Circuit Design, CMOS Technology, and Semiconductor Devices—and the extremely large, like Space Technology.
+                </p>
+                <p>
+                    For me, the goal isn't just to learn theory. I genuinely enjoy figuring out how we can connect fundamental electronics to real-world applications, especially when it comes to building satellite systems and astronomical instrumentation.
+                </p>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2 class="section-title">Education</h2>
+            <div class="panel">
+                <div class="timeline-card">
+                    <div class="timeline-dot"></div>
+                    <div class="mono" style="color: var(--accent); margin-bottom: 8px;">CURRENT</div>
+                    <h3 style="margin-bottom: 4px; color: #fff;">Bangalore Institute of Technology</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 12px;">B.E. Electronics Engineering (VLSI Design & Technology)</p>
+                    
+                    <ul class="clean-list" style="gap: 8px;">
+                        <li><i class="fa-regular fa-calendar"></i> Semester: 2nd Semester</li>
+                        <li><i class="fa-solid fa-location-dot"></i> Location: Bangalore, India</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-title">Skills & Knowledge Base</h2>
+            <div class="grid-3">
+                <div class="panel">
+                    <h3 class="mono" style="margin-bottom: 16px; color: var(--accent);">// TECHNICAL</h3>
+                    <ul class="clean-list">
+                        <li><i class="fa-solid fa-code"></i> C Programming (Basics)</li>
+                        <li><i class="fa-solid fa-microchip"></i> Verilog (Coursework)</li>
+                        <li><i class="fa-solid fa-wave-square"></i> MATLAB (Coursework)</li>
+                    </ul>
+                </div>
+
+                <div class="panel">
+                    <h3 class="mono" style="margin-bottom: 16px; color: var(--accent);">// INTEREST AREAS</h3>
+                    <ul class="clean-list">
+                        <li><i class="fa-solid fa-layer-group"></i> Digital Circuit Design</li>
+                        <li><i class="fa-solid fa-atom"></i> CMOS Technology</li>
+                        <li><i class="fa-solid fa-server"></i> Semiconductor Devices</li>
+                        <li><i class="fa-solid fa-satellite-dish"></i> Space Electronics</li>
+                    </ul>
+                </div>
+
+                <div class="panel">
+                    <h3 class="mono" style="margin-bottom: 16px; color: var(--accent);">// SOFT SKILLS</h3>
+                    <ul class="clean-list">
+                        <li><i class="fa-solid fa-puzzle-piece"></i> Problem Solving</li>
+                        <li><i class="fa-solid fa-people-group"></i> Teamwork</li>
+                        <li><i class="fa-solid fa-lightbulb"></i> Curiosity</li>
+                        <li><i class="fa-solid fa-book-open"></i> Continuous Learning</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="interests">
+            <h2 class="section-title">Interests & Inspiration</h2>
+            <div class="panel" style="margin-bottom: 24px;">
+                <p>
+                    My interest in electronics actually started by looking up. I wanted to know how deep space telescopes captured those incredible images, which led me down the rabbit hole of sensors, circuitry, and eventually VLSI. Understanding how astronomy and electronics intersect is what inspires my journey as an engineer.
+                </p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="achievement-item"><i class="fa-solid fa-telescope" style="color: var(--accent); margin-right: 10px;"></i> Observational Astronomy</div>
+                <div class="achievement-item"><i class="fa-solid fa-star" style="color: var(--accent); margin-right: 10px;"></i> Stellar Physics</div>
+                <div class="achievement-item"><i class="fa-solid fa-rocket" style="color: var(--accent); margin-right: 10px;"></i> Space Instrumentation</div>
+                <div class="achievement-item"><i class="fa-solid fa-microchip" style="color: var(--accent); margin-right: 10px;"></i> Semiconductor Tech</div>
+                <div class="achievement-item"><i class="fa-solid fa-satellite" style="color: var(--accent); margin-right: 10px;"></i> Satellite Electronics</div>
+                <div class="achievement-item"><i class="fa-solid fa-network-wired" style="color: var(--accent); margin-right: 10px;"></i> Digital System Design</div>
+            </div>
+        </section>
+
+        <section id="achievements">
+            <h2 class="section-title">Current Milestones</h2>
+            <div class="panel">
+                <ul class="clean-list" style="gap: 16px;">
+                    <li style="align-items: flex-start;">
+                        <i class="fa-solid fa-check" style="margin-top: 6px;"></i>
+                        <span>Completed foundational coursework in Electronics Engineering.</span>
+                    </li>
+                    <li style="align-items: flex-start;">
+                        <i class="fa-solid fa-check" style="margin-top: 6px;"></i>
+                        <span>Developing practical knowledge in Verilog and MATLAB.</span>
+                    </li>
+                    <li style="align-items: flex-start;">
+                        <i class="fa-solid fa-check" style="margin-top: 6px;"></i>
+                        <span>Consistently expanding knowledge in semiconductor technologies.</span>
+                    </li>
+                    <li style="align-items: flex-start;">
+                        <i class="fa-solid fa-check" style="margin-top: 6px;"></i>
+                        <span>Actively exploring emerging applications of VLSI in space systems.</span>
+                    </li>
+                    <li style="align-items: flex-start;">
+                        <i class="fa-solid fa-check" style="margin-top: 6px;"></i>
+                        <span>Demonstrating strong enthusiasm for independent technical learning.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <h2 class="section-title">Visuals</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <!-- Real space tech photo (Telescope/Observatory) -->
+                    <img src="https://images.unsplash.com/photo-1518066000714-58c45f1a2c0a?q=80&w=800&auto=format&fit=crop" alt="Campus / Observatory">
+                    <div class="gallery-caption">Campus / Observatory</div>
+                </div>
+                <div class="gallery-item">
+                    <!-- Real deep space photo (Nebula) -->
+                    <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&w=800&auto=format&fit=crop" alt="Astronomy">
+                    <div class="gallery-caption">Astronomy</div>
+                </div>
+                <div class="gallery-item">
+                    <!-- Real electronics/circuit board photo -->
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop" alt="Projects / Circuits">
+                    <div class="gallery-caption">Projects</div>
+                </div>
+                <div class="gallery-item">
+                    <!-- Starry night aesthetic photo -->
+                    <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=800&auto=format&fit=crop" alt="Memories">
+                    <div class="gallery-caption">Memories</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">Contact</h2>
+            <div class="panel">
+                <p style="margin-bottom: 24px;">Always happy to talk about semiconductors, space, or both.</p>
+                
+                <div class="grid-2">
+                    <ul class="clean-list">
+                        <li>
+                            <i class="fa-solid fa-envelope"></i>
+                            <a href="mailto:gowrimanohari2007@gmail.com" style="color: var(--text-main); text-decoration: none;">gowrimanohari2007@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <span style="color: var(--text-main);">+91 94814 62240</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span style="color: var(--text-main);">Bangalore, India</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Designed with curiosity, caffeine, and countless stars.</p>
+            <p class="mono" style="margin-top: 8px; font-size: 0.75rem;">&copy; 2026 Gowrimanohari KP</p>
+        </footer>
+    </div>
+
+    <div class="back-to-top" id="btt">
+        <i class="fa-solid fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Typing Effect
+        const words = ["Electronics", "VLSI", "Astronomy", "Digital Design", "Semiconductors"];
+        let i = 0;
+        let timer;
+
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('type-text').innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000); // Wait 2s before deleting
+                    return false;
+                }
+                timer = setTimeout(loopTyping, 100); // Typing speed
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('type-text').innerHTML = word.join("");
+                } else {
+                    i = (i + 1) % words.length; // Next word
+                    setTimeout(typingEffect, 500); // Wait 0.5s before typing next
+                    return false;
+                }
+                timer = setTimeout(loopDeleting, 50); // Deleting speed
+            };
+            loopDeleting();
+        }
+
+        // Start typing effect on load
+        window.onload = function() {
+            setTimeout(typingEffect, 1000);
+            reveal(); // Trigger initial reveal
+        };
+
+        // Scroll Reveal Animation
+        function reveal() {
+            var sections = document.querySelectorAll("section");
+            for (var j = 0; j < sections.length; j++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = sections[j].getBoundingClientRect().top;
+                var elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    sections[j].classList.add("visible");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        // Back to Top Button
+        const bttBtn = document.getElementById("btt");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                bttBtn.classList.add("show");
+            } else {
+                bttBtn.classList.remove("show");
+            }
+        });
+
+        bttBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
